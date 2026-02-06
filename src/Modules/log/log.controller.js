@@ -2,6 +2,6 @@ import { Router } from 'express';
 
 const logRouter = Router();
 
-logRouter.post('/');
+logRouter.post('/', (req, res) => {});
 
 export default logRouter;
