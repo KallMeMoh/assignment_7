@@ -18,10 +18,9 @@ export default async function bootstrap() {
   app.use('/collection', collectionRouter);
 
   app.use((err, req, res, next) => {
-    const status = err.cause?.status ?? 500;
-    return res.status(status).json({
-      message: err.message ?? 'Something went wrong',
-      stack: NODE_ENV === 'development' ? err.stack : undefined,
+    console.error({ err });
+    return res.status(500).json({
+      message: 'Internal Server Error',
     });
   });
 
