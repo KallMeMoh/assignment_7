@@ -1,8 +1,16 @@
 import { MongoClient } from 'mongodb';
-import { MONGO_URI } from '../../config/config.service';
+import { DB_NAME, MONGO_URI } from '../../config/config.service.js';
 
 const client = new MongoClient(MONGO_URI);
 
-export const db = client.db('assignment_7');
+export const db = client.db(DB_NAME);
 
-// export const
+export async function connectDB() {
+  try {
+    await client.connect();
+    console.log('Connected to MongoDB Server Successfully');
+  } catch (error) {
+    console.error({ error });
+    process.exit(1);
+  }
+}
