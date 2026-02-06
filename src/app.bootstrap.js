@@ -2,6 +2,10 @@ import express from 'express';
 import { NODE_ENV, PORT } from '../config/config.service.js';
 import { connectDB } from './DB/connection.js';
 
+import logRouter from './Modules/log/log.controller.js';
+import collectionRouter from './Modules/collection/collection.controller.js';
+import bookRouter from './Modules/book/book.controller.js';
+
 export default async function bootstrap() {
   const app = express();
 
@@ -9,9 +13,9 @@ export default async function bootstrap() {
 
   app.use(express.json());
 
-  app.use('{/*dummy}', (req, res) => {
-    return res.status(404).json({ message: 'Page not found' });
-  });
+  app.use('/log', logRouter);
+  app.use('/books', bookRouter);
+  app.use('/collection', collectionRouter);
 
   app.use((err, req, res, next) => {
     const status = err.cause?.status ?? 500;
