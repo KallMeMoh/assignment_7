@@ -1,26 +1,19 @@
 import { Router } from 'express';
-import { db } from '../../DB/connection.js';
+import {
+  createCappedLogsCollection,
+  createExplicitBooksCollection,
+  createImplicitAuthorsCollection,
+  indexBooksCollection,
+} from './collection.service.js';
 
 const collectionRouter = Router();
 
-collectionRouter.post('/books', async (req, res, next) => {
-  try {
-    await db.createCollection('books', {
-      validator: {
-        title: { $exists: true, $ne: '' },
-      },
-    });
+collectionRouter.post('/books', createExplicitBooksCollection);
 
-    return res.status(200).json({ ok: 1 });
-  } catch (error) {
-    next(error);
-  }
-});
+collectionRouter.post('/authors', createImplicitAuthorsCollection);
 
-collectionRouter.post('/authors', (req, res, next) => {});
+collectionRouter.post('/logs/capped', createCappedLogsCollection);
 
-collectionRouter.post('/logs/capped', (req, res) => {});
-
-collectionRouter.post('/books/index', (req, res) => {});
+collectionRouter.post('/books/index', indexBooksCollection);
 
 export default collectionRouter;
