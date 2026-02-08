@@ -13,7 +13,7 @@ export default async function bootstrap() {
 
   app.use(express.json());
 
-  app.use('/log', logRouter);
+  app.use('/logs', logRouter);
   app.use('/books', bookRouter);
   app.use('/collection', collectionRouter);
 
