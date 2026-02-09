@@ -1,5 +1,5 @@
 import express from 'express';
-import { NODE_ENV, PORT } from '../config/config.service.js';
+import { PORT } from '../config/config.service.js';
 import { connectDB } from './DB/connection.js';
 
 import logRouter from './Modules/log/log.controller.js';
