@@ -4,7 +4,7 @@ export const createExplicitBooksCollection = async (req, res, next) => {
   try {
     await db.createCollection('books', {
       validator: {
-        title: { $exists: true, $ne: '' },
+        $and: [{ title: { $exists: true } }, { title: { $ne: '' } }],
       },
     });
 

@@ -1,6 +1,9 @@
 db.createCollection('books', {
   validator: {
-    title: { $exists: true, $ne: '' }
+    $and: [
+      { title: { $exists: true } },
+      { title: { $ne: '' } }
+    ]
   }
 })
 
