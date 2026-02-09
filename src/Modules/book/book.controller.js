@@ -1,36 +1,52 @@
 import { Router } from 'express';
+import {
+  beforeYearService,
+  bulkInsertBookService,
+  excludeGenreService,
+  findBookByGenreService,
+  findBookByTitleService,
+  findBookByYearService,
+  firstAggregateService,
+  fourthAggregateService,
+  insertBookService,
+  secondAggregateService,
+  skipLimitService,
+  thirdAggregateService,
+  updateBookService,
+  yearIntegerService,
+} from './book.service.js';
 
 const bookRouter = Router();
 
-bookRouter.post('/', (req, res) => {});
+bookRouter.post('/', insertBookService);
 
-bookRouter.post('/batch', (req, res) => {});
+bookRouter.post('/batch', bulkInsertBookService);
 
-bookRouter.post('/:name', (req, res) => {});
-
-// /books/title?title=...
-bookRouter.post('/title', (req, res) => {});
+// /books/title?title=book2
+bookRouter.get('/title', findBookByTitleService);
 
 // /books/year?from=1990&to=2010
-bookRouter.post('/year', (req, res) => {});
+bookRouter.get('/year', findBookByYearService);
 
 // /books/genre?genre=Science
-bookRouter.post('/genre', (req, res) => {});
+bookRouter.get('/genre', findBookByGenreService);
 
-bookRouter.post('/skip-limit', (req, res) => {});
+bookRouter.get('/skip-limit', skipLimitService);
 
-bookRouter.post('/year-integer', (req, res) => {});
+bookRouter.get('/year-integer', yearIntegerService);
 
-bookRouter.post('/exclude-genres', (req, res) => {});
+bookRouter.get('/exclude-genres', excludeGenreService);
 
-bookRouter.post('/before-year', (req, res) => {});
+bookRouter.get('/before-year', beforeYearService);
 
-bookRouter.post('/aggregate1', (req, res) => {});
+bookRouter.get('/aggregate1', firstAggregateService);
 
-bookRouter.post('/aggregate2', (req, res) => {});
+bookRouter.get('/aggregate2', secondAggregateService);
 
-bookRouter.post('/aggregate3', (req, res) => {});
+bookRouter.get('/aggregate3', thirdAggregateService);
 
-bookRouter.post('/aggregate4', (req, res) => {});
+bookRouter.get('/aggregate4', fourthAggregateService);
+
+bookRouter.patch('/:name', updateBookService);
 
 export default bookRouter;
