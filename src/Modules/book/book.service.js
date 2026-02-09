@@ -1,6 +1,4 @@
-import { title } from 'process';
 import { db } from '../../DB/connection.js';
-import { application } from 'express';
 
 export const insertBookService = async (req, res, next) => {
   const body = req.body;
