@@ -9,6 +9,7 @@ const envPath = {
 
 config({
   path: resolve(`./config/${envPath[NODE_ENV]}`),
+  quiet: true,
 });
 
 export const PORT = process.env['PORT'] || 3000;

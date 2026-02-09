@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { db } from '../../DB/connection.js';
 
 export const insertLogDocument = async (req, res, next) => {
@@ -9,7 +10,9 @@ export const insertLogDocument = async (req, res, next) => {
   const { book_id, action } = body;
 
   try {
-    const doc = await db.collection('logs').insertOne({ book_id, action });
+    const doc = await db
+      .collection('logs')
+      .insertOne({ book_id: ObjectId(book_id), action });
 
     return res.status(200).json(doc);
   } catch (err) {
