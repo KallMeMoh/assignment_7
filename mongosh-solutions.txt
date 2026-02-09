@@ -1,0 +1,95 @@
+db.createCollection('books', {
+  validator: {
+    title: { $exists: true, $ne: '' }
+  }
+})
+
+db.authors.insertOne({ 
+  name: "Moh", 
+  nationality: "Egyptian" 
+})
+
+db.createCollection('logs', {
+  capped: true,
+  size: 1048576
+})
+
+db.books.createIndex({ title: 1 })
+
+db.books.insertOne({ 
+  title: "book8", 
+  author: "Moh", 
+  genres: ["SciFi"], 
+  year: 2001 
+})
+
+db.books.insertMany([
+  { title: "book9", author: "Moh", genres: ["Horror"], year: 2003 },
+  { title: "book10", author: "Ali", genres: ["Classic"], year: 1998 }
+])
+
+db.logs.insertOne({ 
+  book_id: ObjectId("6987c3e4170141287bf95567"), 
+  action: "borrowed" 
+})
+
+db.books.updateOne(
+  { title: "book5" }, 
+  { $set: { year: 2022 } }
+)
+
+db.books.findOne({ title: "Brave New World" })
+
+db.books.find({ 
+  year: { $gte: 1990, $lte: 2010 } 
+})
+
+db.books.find({ 
+  genres: { $in: ["SciFi"] } 
+})
+
+db.books.find()
+  .skip(2)
+  .limit(3)
+  .sort({ year: 1 })
+  
+db.books.find({ year: { $type: 'number' } })
+
+db.books.find({ genres: { $nin: ['Horror', 'SciFi'] } })
+
+db.books.find({ year: { $lt: 2000 } })
+
+db.books.aggregate([
+  { $match: { year: { $gt: 2000 } } }, 
+  { $sort: { year: -1 } }
+])
+
+db.books.aggregate([
+  { $match: { year: { $gt: 2000 } } },
+  { $project: { _id: 0, title: 1, author: 1, year: 1 } }
+])
+
+db.books.aggregate([
+  { $project: { _id: 0, title: 1, genres: 1 } },
+  { $unwind: '$genres' }
+])
+
+db.logs.aggregate([
+  {
+    $lookup: {
+      from: 'books',
+      localField: 'book_id',
+      foreignField: '_id',
+      as: 'book_details'
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      action: 1,
+      'book_details.title': 1,
+      'book_details.author': 1,
+      'book_details.year': 1
+    }
+  }
+])
